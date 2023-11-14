@@ -14,4 +14,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Trigger Workflow
-      run: gh workflow run -R rohithbb433/api-testing-playwright -f playwright.yml -t ${{ secrets.TOKEN }}
+      run: gh workflow run -R rohithbb433/api-testing-playwright -f playwright.yml
+      env:
+        GH_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
