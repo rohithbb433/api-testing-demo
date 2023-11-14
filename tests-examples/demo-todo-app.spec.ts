@@ -129,7 +129,6 @@ test.describe('Item', () => {
     for (const item of TODO_ITEMS.slice(0, 2)) {
       await newTodo.fill(item);
       await newTodo.press('Enter');
-
     }
 
     // Check first item.
