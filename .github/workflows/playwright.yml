@@ -23,6 +23,10 @@ jobs:
           https://api.github.com/repos/rohithbb433/api-testing-playwright/actions/workflows/playwright.yml/dispatches \
           --data '{"ref":"Rohith_new"}'
 
+    - name: Sleep before getting the latest run
+      run: |
+        sleep 10
+
     - name: Wait for the triggered workflow to complete
       id: wait-for-workflow
       run: |
