@@ -16,4 +16,4 @@ jobs:
     - name: Trigger Workflow
       run: gh workflow run -R rohithbb433/api-testing-playwright -f playwright.yml
       env:
-        GH_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+        GH_TOKEN: ${{ secrets.TOKEN }}
