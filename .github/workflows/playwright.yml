@@ -1,9 +1,6 @@
-name: Main Workflow
-
+name: Playwright Tests-new
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
