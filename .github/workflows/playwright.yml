@@ -24,13 +24,26 @@ jobs:
           --data '{"ref":"Rohith_new"}'
 
     - name: Wait for the triggered workflow to complete
+      id: wait-for-workflow
       run: |
-        # Sleep for a reasonable amount of time (e.g., 30 seconds)
-        sleep 30
-        
-        # Poll GitHub API to check the status of the triggered workflow
-        while [ "$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                     -H "Accept: application/vnd.github.v3+json" \
-                     https://api.github.com/repos/rohithbb433/api-testing-playwright/actions/runs/latest | jq -r '.status')" != "completed" ]; do
+        TOKEN="${{ secrets.TOKEN }}"
+        REPO="rohithbb433/api-testing-playwright"
+        WORKFLOW_NAME="playwright.yml"
+        EVENT_TYPE="workflow_dispatch"
+
+        # Get the latest run for the specified workflow and event type
+        latest_run_url=$(curl -s -H "Authorization: Bearer $TOKEN" \
+                          -H "Accept: application/vnd.github.v3+json" \
+                          "https://api.github.com/repos/$REPO/actions/workflows/$WORKFLOW_NAME/runs?event=$EVENT_TYPE" \
+                          | jq -r '.workflow_runs[0].url')
+
+        # Wait for the completion of the triggered workflow
+        while [ "$(curl -s -H "Authorization: Bearer $TOKEN" \
+                      -H "Accept: application/vnd.github.v3+json" \
+                      "$latest_run_url" \
+                      | jq -r '.status')" != "completed" ]; do
           sleep 10
         done
+
+    # Add the rest of your steps here
+    # ...
