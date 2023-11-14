@@ -11,18 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Wait for the triggered workflow to complete
-      run: |
-        # Sleep for a reasonable amount of time (e.g., 30 seconds)
-        sleep 30
-        
-        # Poll GitHub API to check the status of the triggered workflow
-        while [ "$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                     -H "Accept: application/vnd.github.v3+json" \
-                     https://api.github.com/repos/rohithbb433/api-testing-playwright/actions/runs/latest | jq -r '.status')" != "completed" ]; do
-          sleep 10
-        done
-
     - name: Checkout repository
       uses: actions/checkout@v2
 
@@ -34,3 +22,15 @@ jobs:
           -H "Content-Type: application/json" \
           https://api.github.com/repos/rohithbb433/api-testing-playwright/actions/workflows/playwright.yml/dispatches \
           --data '{"ref":"Rohith_new"}'
+
+    - name: Wait for the triggered workflow to complete
+      run: |
+        # Sleep for a reasonable amount of time (e.g., 30 seconds)
+        sleep 30
+        
+        # Poll GitHub API to check the status of the triggered workflow
+        while [ "$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                     -H "Accept: application/vnd.github.v3+json" \
+                     https://api.github.com/repos/rohithbb433/api-testing-playwright/actions/runs/latest | jq -r '.status')" != "completed" ]; do
+          sleep 10
+        done
