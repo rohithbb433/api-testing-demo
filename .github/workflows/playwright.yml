@@ -1,8 +1,6 @@
 name: Trigger Another Workflow
-
 on:
-  repository_dispatch:
-    types: [custom-event-name]
+  workflow_dispatch:
 
 jobs:
   trigger:
