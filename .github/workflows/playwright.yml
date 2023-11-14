@@ -6,23 +6,26 @@ jobs:
   trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Another Workflow
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const triggerWorkflow = async () => {
-              const { data } = await octokit.request('POST /repos/:owner/:repo/actions/workflows/:workflow_id/dispatches', {
-                owner: 'rohithbb433',
-                repo: 'api-testing-playwright',
-                workflow_id: 'playwright.yml',
-                ref: 'main',  // Specify the branch or tag you want to trigger the workflow on
-                inputs: {
-                  customInput: 'value',
-                },
-              });
+       - name: Trigger Another Workflow
+         run: |
+          const github = require('@actions/github');
+          const token = process.env.TOKEN;
+          const octokit = github.getOctokit(token);
 
-              console.log(data);
-            };
+          const triggerWorkflow = async () => {
+            const { data } = await octokit.request('POST /repos/:owner/:repo/actions/workflows/:workflow_id/dispatches', {
+              owner: 'rohithbb433',
+              repo: 'api-testing-playwright',
+              workflow_id: 'playwright.yml',
+              ref: 'main',  // Specify the branch or tag you want to trigger the workflow on
+              inputs: {
+                customInput: 'value',
+              },
+            });
 
-            await triggerWorkflow();
+            console.log(data);
+          };
+
+          await triggerWorkflow();
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
