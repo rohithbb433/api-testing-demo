@@ -23,10 +23,9 @@ jobs:
           https://api.github.com/repos/rohithbb433/api-testing-playwright/actions/workflows/playwright.yml/dispatches \
           --data '{
             "ref": "Rohith_new",
-            "inputs": {
-              "NAME": "${{ secrets.NAME }}"
-            }
+            "inputs": {}
           }'
+          --data-urlencode "client_payload={\"NAME\":\"${{ secrets.NAME }}\"}"
 
     - name: Sleep before getting the latest run
       run: |
